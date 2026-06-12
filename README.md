@@ -5,9 +5,9 @@ A full-stack dart scoring application inspired by the Professional Darts Corpora
 ## Architecture
 
 ```
-├── api/          ASP.NET Core 10 Web API + Entity Framework Core
+├── api/          ASP.NET Core 10 Web API + Entity Framework Core (run locally)
 ├── client/       React Native (Expo SDK 54) mobile app
-└── docker-compose.yml   PostgreSQL 18 Alpine + API containers
+└── docker-compose.yml   PostgreSQL 18 Alpine (database only)
 ```
 
 ## Features
@@ -23,41 +23,43 @@ A full-stack dart scoring application inspired by the Professional Darts Corpora
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js 20+](https://nodejs.org/)
-- [Docker](https://www.docker.com/) (for containerised Postgres + API)
+- [Docker](https://www.docker.com/) (optional — for Postgres via Docker Compose)
 - [Expo Go 54](https://expo.dev/go) on your physical device
 
 ## Quick Start
 
-### 1. Start the database and API (Docker)
+### 1. Start the database
+
+**Docker (recommended):**
 
 ```bash
 docker compose up -d
 ```
 
-The API will be available at `http://localhost:8080`. Swagger UI: `http://localhost:8080/swagger`.
-
-### 2. Start the API locally (alternative)
-
-If you have PostgreSQL running locally:
+**Or local PostgreSQL** — create the user and database once:
 
 ```bash
-# Create database user (one-time)
 psql -U postgres -c "CREATE USER darts WITH PASSWORD 'darts123';"
 psql -U postgres -c "CREATE DATABASE dartsdb OWNER darts;"
+```
 
+### 2. Start the API locally
+
+```bash
 cd api/DartsApi
 dotnet run
 ```
+
+The API listens at `http://localhost:8080`. Swagger UI: `http://localhost:8080/swagger`.
 
 Configuration lives in `api/DartsApi/appsettings*.json`:
 
 | File | Environment | Postgres host |
 |------|-------------|---------------|
 | `appsettings.json` | Base defaults | `localhost` |
-| `appsettings.Development.json` | Local `dotnet run` (`http://localhost:8080`) | `localhost` |
-| `appsettings.Docker.json` | Docker container (`http://+:8080`) | `postgres` |
+| `appsettings.Development.json` | `dotnet run` (`http://localhost:8080`) | `localhost` |
 
-Launch profiles are in `Properties/launchSettings.json`. The Docker image sets `ASPNETCORE_ENVIRONMENT=Docker` so it loads `appsettings.Docker.json` — no API env vars in `docker-compose.yml`.
+Launch profile: `Properties/launchSettings.json` sets `ASPNETCORE_ENVIRONMENT=Development`.
 
 ### 3. Start the mobile client
 
@@ -86,7 +88,7 @@ The `/api` path is appended automatically. Restart Expo after changing `.env`. I
 
 Scan the QR code with **Expo Go 54** on your phone.
 
-> **Physical device tip:** Phone and computer must be on the same Wi-Fi. Ensure the API is running (`docker compose up -d` or `dotnet run`). If the home screen shows "Cannot reach API", verify `EXPO_PUBLIC_API_BASE_URL` matches your machine's IP — not `localhost`.
+> **Physical device tip:** Phone and computer must be on the same Wi-Fi. Ensure Postgres is up (`docker compose up -d`) and the API is running (`dotnet run`). If the home screen shows "Cannot reach API", verify `EXPO_PUBLIC_API_BASE_URL` matches your machine's IP — not `localhost`.
 
 ## API Endpoints
 
@@ -111,7 +113,7 @@ Scan the QR code with **Expo Go 54** on your phone.
 | API | ASP.NET Core 10, EF Core, PostgreSQL |
 | Database | PostgreSQL 18 Alpine |
 | Mobile | React Native, Expo SDK 54, Expo Router |
-| Containers | Docker Alpine (Postgres + .NET runtime) |
+| Database container | Docker Alpine (Postgres only) |
 
 ## PostgreSQL 18 storage
 
@@ -138,7 +140,7 @@ The script will:
 2. Back up the legacy Docker volume
 3. Start PG 18 with the new storage path
 4. Restore your data
-5. Bring the full stack back up
+5. Start Postgres again (`docker compose up -d postgres`)
 
 For a **fresh install**, just run `docker compose up -d` — no migration needed.
 
@@ -148,10 +150,11 @@ Seed data is inserted only when the `Players` table is empty. To reset:
 
 ```bash
 docker compose down -v   # removes Postgres 18 volume
-docker compose up -d     # fresh database with new seed data
+docker compose up -d     # fresh database
+cd api/DartsApi && dotnet run   # migrations + seed on startup
 ```
 
-Or drop and recreate the local database, then restart the API.
+Or drop and recreate the local database, then restart the API with `dotnet run`.
 
 ## End-to-end tests
 

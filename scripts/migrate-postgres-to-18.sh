@@ -57,7 +57,7 @@ if ! docker volume inspect "$OLD_VOL" >/dev/null 2>&1; then
   warn "No legacy PG 16 volume found ($OLD_VOL)."
   warn "Starting fresh with PostgreSQL 18 storage layout..."
   docker compose up -d
-  ok "PostgreSQL 18 started. EF migrations and seed data will run on API startup."
+  ok "PostgreSQL 18 started. Run the API locally: cd api/DartsApi && dotnet run"
   exit 0
 fi
 
@@ -71,8 +71,8 @@ if docker volume inspect "$NEW_VOL" >/dev/null 2>&1; then
   fi
 fi
 
-step "1/6 Stopping services (keeping Postgres reachable for dump)"
-docker compose stop api 2>/dev/null || true
+step "1/6 Stopping Postgres (keeping data reachable for dump)"
+docker compose stop postgres 2>/dev/null || true
 
 # Start a temporary PG16 container against the old volume if not already running
 PG16_CONTAINER="darts-pg16-migrate"
@@ -136,8 +136,8 @@ step "6/6 Restoring data into PostgreSQL 18"
 docker exec -i darts-postgres pg_restore -U "$PG_USER" -d "$PG_DB" --clean --if-exists --no-owner < "$DUMP_FILE"
 ok "Data restored"
 
-docker compose up -d
-ok "Migration complete!"
+docker compose up -d postgres
+ok "Migration complete! Start the API locally: cd api/DartsApi && dotnet run"
 echo ""
 echo "  Dump file:     $DUMP_FILE"
 echo "  Legacy backup: $BACKUP_VOL (old PG 16 volume preserved)"

@@ -19,16 +19,5 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    container_name: darts-api
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-
 volumes:
   postgres_data_18:
