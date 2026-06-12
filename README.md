@@ -53,9 +53,9 @@ Configuration lives in `api/DartsApi/appsettings*.json`:
 
 | File | Environment | Postgres host |
 |------|-------------|---------------|
-| `appsettings.json` | Base (Kestrel port 8080, defaults) | `localhost` |
-| `appsettings.Development.json` | Local `dotnet run` | `localhost` |
-| `appsettings.Docker.json` | Docker container | `postgres` |
+| `appsettings.json` | Base defaults | `localhost` |
+| `appsettings.Development.json` | Local `dotnet run` (`http://localhost:8080`) | `localhost` |
+| `appsettings.Docker.json` | Docker container (`http://+:8080`) | `postgres` |
 
 Launch profiles are in `Properties/launchSettings.json`. The Docker image sets `ASPNETCORE_ENVIRONMENT=Docker` so it loads `appsettings.Docker.json` — no API env vars in `docker-compose.yml`.
 
