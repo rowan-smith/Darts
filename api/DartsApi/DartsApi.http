@@ -1,0 +1,6 @@
+@DartsApi_HostAddress = http://localhost:5234
+
+GET {{DartsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
