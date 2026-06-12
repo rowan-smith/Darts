@@ -119,8 +119,8 @@ public class MatchesController(DartsDbContext db, ScoringService scoring) : Cont
     [HttpPost("{id:guid}/visit")]
     public async Task<ActionResult<MatchDetailDto>> RecordVisit(Guid id, [FromBody] RecordVisitRequest request)
     {
-        if (!ScoringService.IsValidScore(request.Score))
-            return BadRequest(new { message = "Invalid dart score." });
+        if (!ScoringService.IsValidVisitScore(request.Score))
+            return BadRequest(new { message = "Invalid visit score." });
 
         var visit = await scoring.RecordVisitAsync(id, request.PlayerId, request.Score);
         if (visit is null)

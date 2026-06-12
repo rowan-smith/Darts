@@ -152,3 +152,21 @@ docker compose up -d     # fresh database with new seed data
 ```
 
 Or drop and recreate the local database, then restart the API.
+
+## End-to-end tests
+
+API e2e tests live in `api/DartsApi.E2E.Tests`. They spin up the real ASP.NET app against PostgreSQL and exercise the main HTTP flows:
+
+- Health check
+- Home feed (seeded data)
+- Profile get/update
+- Articles list/detail
+- Match flow (create → start → score → recap validation)
+
+```bash
+# Requires Docker (Testcontainers) OR local Postgres with dartsdb_test database
+chmod +x scripts/run-e2e-tests.sh
+./scripts/run-e2e-tests.sh
+```
+
+With Docker running, tests use an isolated Postgres 18 container. Without Docker, they fall back to `localhost:5432/dartsdb_test`.

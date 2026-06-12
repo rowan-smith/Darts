@@ -22,7 +22,9 @@ public class ScoringService(DartsDbContext db)
         return scores;
     }
 
-    public static bool IsValidScore(int score) => score >= 0 && score <= 180 && ValidScores.Contains(score);
+    public static bool IsValidDartScore(int score) => score >= 0 && score <= 60 && ValidScores.Contains(score);
+
+    public static bool IsValidVisitScore(int score) => score >= 0 && score <= 180;
 
     public static bool CanCheckout(int remaining, int score)
     {
@@ -47,7 +49,7 @@ public class ScoringService(DartsDbContext db)
 
     public async Task<Visit?> RecordVisitAsync(Guid matchId, Guid playerId, int score)
     {
-        if (!IsValidScore(score)) return null;
+        if (!IsValidVisitScore(score)) return null;
 
         var match = await db.Matches
             .Include(m => m.Sets).ThenInclude(s => s.Legs).ThenInclude(l => l.Visits)
