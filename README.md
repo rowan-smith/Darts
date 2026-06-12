@@ -95,7 +95,7 @@ Scan the QR code with **Expo Go 54** on your phone.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/health` | Health check (used by client on startup) |
+| GET | `/api/health`, `/api/healthz` | Health check (client uses `/api/health` on startup) |
 | GET | `/api/home` | Home feed (scores, articles, suggestions, featured) |
 | GET | `/api/matches` | List matches (optional `?status=InProgress`) |
 | GET | `/api/matches/{id}` | Match detail with sets/legs/visits |
