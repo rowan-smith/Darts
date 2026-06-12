@@ -5,7 +5,7 @@ A full-stack dart scoring application inspired by the Professional Darts Corpora
 ## Architecture
 
 ```
-├── api/          ASP.NET Core 8 Web API + Entity Framework Core
+├── api/          ASP.NET Core 10 Web API + Entity Framework Core
 ├── client/       React Native (Expo SDK 54) mobile app
 └── docker-compose.yml   PostgreSQL 18 Alpine + API containers
 ```
@@ -21,7 +21,7 @@ A full-stack dart scoring application inspired by the Professional Darts Corpora
 
 ## Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js 20+](https://nodejs.org/)
 - [Docker](https://www.docker.com/) (for containerised Postgres + API)
 - [Expo Go 54](https://expo.dev/go) on your physical device
@@ -83,7 +83,7 @@ Scan the QR code with **Expo Go 54** on your phone. The app auto-detects your ma
 
 | Layer | Technology |
 |-------|-----------|
-| API | ASP.NET Core 8, EF Core, PostgreSQL |
+| API | ASP.NET Core 10, EF Core, PostgreSQL |
 | Database | PostgreSQL 18 Alpine |
 | Mobile | React Native, Expo SDK 54, Expo Router |
 | Containers | Docker Alpine (Postgres + .NET runtime) |
