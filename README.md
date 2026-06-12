@@ -55,7 +55,7 @@ Connection string (default): `Host=localhost;Port=5432;Database=dartsdb;Username
 
 ```bash
 cd client
-npm install
+npm install          # .npmrc handles Expo peer dependency resolution
 cp .env.example .env   # optional — set EXPO_PUBLIC_API_URL for your LAN IP
 npx expo start
 # or clear Metro cache after config changes:

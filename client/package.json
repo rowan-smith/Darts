@@ -22,7 +22,11 @@
   "devDependencies": {
     "@types/react": "~19.1.10",
     "babel-preset-expo": "~54.0.11",
+    "react-dom": "19.1.0",
     "typescript": "~5.9.2"
+  },
+  "overrides": {
+    "react-dom": "19.1.0"
   },
   "scripts": {
     "start": "expo start",
