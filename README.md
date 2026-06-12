@@ -56,7 +56,9 @@ Connection string (default): `Host=localhost;Port=5432;Database=dartsdb;Username
 ```bash
 cd client
 npm install          # .npmrc handles Expo peer dependency resolution
-cp .env.example .env   # optional — set EXPO_PUBLIC_API_URL for your LAN IP
+cp .env.example .env
+# Edit .env — set EXPO_PUBLIC_API_BASE_URL to your machine's LAN IP:
+#   EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:8080
 npx expo start
 # or clear Metro cache after config changes:
 npm run start:clear
@@ -64,14 +66,23 @@ npm run start:clear
 
 The client uses **Metro** as the bundler (see `client/metro.config.js`). `expo start` runs Metro under the hood for iOS, Android, and web.
 
-Scan the QR code with **Expo Go 54** on your phone. The app auto-detects your machine's IP for the API (`http://<your-ip>:8080/api`).
+Configure the API in `client/.env`:
 
-> **Physical device tip:** Ensure your phone and computer are on the same Wi-Fi network. If the API is unreachable, copy `client/.env.example` to `client/.env` and set `EXPO_PUBLIC_API_URL` to your machine's LAN IP (e.g. `http://192.168.1.100:8080/api`).
+```env
+EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:8080
+```
+
+The `/api` path is appended automatically. Restart Expo after changing `.env`. In dev, the resolved URL is logged as `[API] Base URL: ...`.
+
+Scan the QR code with **Expo Go 54** on your phone.
+
+> **Physical device tip:** Phone and computer must be on the same Wi-Fi. Ensure the API is running (`docker compose up -d` or `dotnet run`). If the home screen shows "Cannot reach API", verify `EXPO_PUBLIC_API_BASE_URL` matches your machine's IP — not `localhost`.
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| GET | `/api/health` | Health check (used by client on startup) |
 | GET | `/api/home` | Home feed (scores, articles, suggestions, featured) |
 | GET | `/api/matches` | List matches (optional `?status=InProgress`) |
 | GET | `/api/matches/{id}` | Match detail with sets/legs/visits |

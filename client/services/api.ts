@@ -27,6 +27,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  healthCheck: () => request<{ status: string; timestamp: string }>('/health'),
   getHomeFeed: () => request<HomeFeed>('/home'),
   getMatches: (status?: MatchStatus) =>
     request<MatchSummary[]>(status ? `/matches?status=${status}` : '/matches'),

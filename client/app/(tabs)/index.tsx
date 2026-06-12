@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ArticleCard } from '../../components/ArticleCard';
+import { ConnectionError } from '../../components/ConnectionError';
 import { LoadingView } from '../../components/LoadingView';
 import { MatchCard } from '../../components/MatchCard';
 import { SectionHeader } from '../../components/SectionHeader';
@@ -26,13 +27,18 @@ export default function HomeScreen() {
   const [feed, setFeed] = useState<HomeFeed | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const loadFeed = useCallback(async () => {
     try {
+      setError(null);
+      await api.healthCheck();
       const data = await api.getHomeFeed();
       setFeed(data);
-    } catch (error) {
-      console.error('Failed to load home feed:', error);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Connection failed';
+      setError(msg);
+      console.error('Failed to load home feed:', err);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -46,6 +52,7 @@ export default function HomeScreen() {
   );
 
   if (loading) return <LoadingView message="Loading PDC Darts..." />;
+  if (error && !feed) return <ConnectionError message={error} onRetry={() => { setLoading(true); loadFeed(); }} />;
 
   return (
     <ScrollView
