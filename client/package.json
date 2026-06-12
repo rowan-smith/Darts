@@ -29,11 +29,11 @@
     "react-dom": "19.1.0"
   },
   "scripts": {
-    "start": "expo start",
-    "start:clear": "expo start --clear",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "start": "expo start --port 8080",
+    "start:clear": "expo start --port 8080 --clear",
+    "android": "expo start --port 8080 --android",
+    "ios": "expo start --port 8080 --ios",
+    "web": "expo start --port 8080 --web"
   },
   "private": true
 }

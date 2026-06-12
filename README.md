@@ -50,14 +50,14 @@ cd api/DartsApi
 dotnet run
 ```
 
-The API listens at `http://localhost:8080`. Swagger UI: `http://localhost:8080/swagger`.
+The API listens at `http://localhost:5000`. Swagger UI: `http://localhost:5000/swagger`.
 
 Configuration lives in `api/DartsApi/appsettings*.json`:
 
 | File | Environment | Postgres host |
 |------|-------------|---------------|
 | `appsettings.json` | Base defaults | `localhost` |
-| `appsettings.Development.json` | `dotnet run` (`http://localhost:8080`) | `localhost` |
+| `appsettings.Development.json` | `dotnet run` (`http://localhost:5000`) | `localhost` |
 
 Launch profile: `Properties/launchSettings.json` sets `ASPNETCORE_ENVIRONMENT=Development`.
 
@@ -68,9 +68,10 @@ cd client
 npm install          # .npmrc handles Expo peer dependency resolution
 cp .env.example .env
 # Edit .env — set EXPO_PUBLIC_API_BASE_URL to your machine's LAN IP:
-#   EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:8080
-npx expo start
-# or clear Metro cache after config changes:
+#   EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:5000
+npm start
+# Metro dev server runs on port 8080; API runs on port 5000.
+# Clear Metro cache after config changes:
 npm run start:clear
 ```
 
@@ -81,7 +82,7 @@ Navigation uses **Expo Router native tabs** (`expo-router/unstable-native-tabs`)
 Configure the API in `client/.env`:
 
 ```env
-EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:8080
+EXPO_PUBLIC_API_BASE_URL=http://192.168.1.100:5000
 ```
 
 The `/api` path is appended automatically. Restart Expo after changing `.env`. In dev, the resolved URL is logged as `[API] Base URL: ...`.
