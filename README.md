@@ -56,12 +56,13 @@ Connection string (default): `Host=localhost;Port=5432;Database=dartsdb;Username
 ```bash
 cd client
 npm install
+cp .env.example .env   # optional — set EXPO_PUBLIC_API_URL for your LAN IP
 npx expo start
 ```
 
 Scan the QR code with **Expo Go 54** on your phone. The app auto-detects your machine's IP for the API (`http://<your-ip>:8080/api`).
 
-> **Physical device tip:** Ensure your phone and computer are on the same Wi-Fi network. If the API is unreachable, update `client/constants/config.ts` with your machine's LAN IP.
+> **Physical device tip:** Ensure your phone and computer are on the same Wi-Fi network. If the API is unreachable, copy `client/.env.example` to `client/.env` and set `EXPO_PUBLIC_API_URL` to your machine's LAN IP (e.g. `http://192.168.1.100:8080/api`).
 
 ## API Endpoints
 
