@@ -9,6 +9,7 @@ RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS runtime
 WORKDIR /app
 RUN apk add --no-cache icu-libs
+ENV ASPNETCORE_ENVIRONMENT=Docker
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 COPY --from=build /app/publish .
 EXPOSE 8080

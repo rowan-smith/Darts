@@ -49,7 +49,15 @@ cd api/DartsApi
 dotnet run
 ```
 
-Connection string (default): `Host=localhost;Port=5432;Database=dartsdb;Username=darts;Password=darts123`
+Configuration lives in `api/DartsApi/appsettings*.json`:
+
+| File | Environment | Postgres host |
+|------|-------------|---------------|
+| `appsettings.json` | Base (Kestrel port 8080, defaults) | `localhost` |
+| `appsettings.Development.json` | Local `dotnet run` | `localhost` |
+| `appsettings.Docker.json` | Docker container | `postgres` |
+
+Launch profiles are in `Properties/launchSettings.json`. The Docker image sets `ASPNETCORE_ENVIRONMENT=Docker` so it loads `appsettings.Docker.json` — no API env vars in `docker-compose.yml`.
 
 ### 3. Start the mobile client
 
