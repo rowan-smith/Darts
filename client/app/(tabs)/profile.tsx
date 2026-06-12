@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { LoadingView } from '../../components/LoadingView';
+import { ScreenHeader } from '../../components/ScreenHeader';
 import { useTheme } from '../../context/ThemeContext';
 import { api } from '../../services/api';
 import type { ThemeMode, UserProfile } from '../../types';
@@ -65,6 +66,7 @@ export default function ProfileScreen() {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]} contentContainerStyle={styles.content}>
+      <ScreenHeader title="Profile" />
       <View style={[styles.avatarSection, { backgroundColor: colors.card, borderColor: colors.border }]}>
         <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
           <Text style={styles.avatarText}>{name.charAt(0).toUpperCase()}</Text>

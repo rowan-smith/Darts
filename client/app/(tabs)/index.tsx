@@ -59,7 +59,7 @@ export default function HomeScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadFeed(); }} tintColor={colors.primary} />}
     >
-      <View style={[styles.hero, { backgroundColor: colors.primary }]}>
+      <View style={[styles.hero, { backgroundColor: colors.primary }]} collapsable={false}>
         <Text style={styles.heroTitle}>PDC Darts Tracker</Text>
         <Text style={styles.heroSubtitle}>Scores · News · Stats</Text>
       </View>

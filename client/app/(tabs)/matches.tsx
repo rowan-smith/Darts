@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { LoadingView } from '../../components/LoadingView';
+import { ScreenHeader } from '../../components/ScreenHeader';
 import { MatchCard } from '../../components/MatchCard';
 import { useTheme } from '../../context/ThemeContext';
 import { api } from '../../services/api';
@@ -47,6 +48,7 @@ export default function MatchesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <ScreenHeader title="Scores" subtitle="Track and manage matches" />
       <View style={styles.filterRow}>
         {FILTERS.map((f) => (
           <Pressable

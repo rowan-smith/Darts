@@ -66,6 +66,8 @@ npm run start:clear
 
 The client uses **Metro** as the bundler (see `client/metro.config.js`). `expo start` runs Metro under the hood for iOS, Android, and web.
 
+Navigation uses **Expo Router native tabs** (`expo-router/unstable-native-tabs`) for a platform-native tab bar. On **iOS 26+** with a dev build compiled in Xcode 26, the tab bar uses the system **Liquid Glass** appearance. Material 3 bottom navigation is used on Android. Expo Go may show standard native tabs without the full liquid glass effect.
+
 Configure the API in `client/.env`:
 
 ```env
