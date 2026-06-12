@@ -87,12 +87,41 @@ Scan the QR code with **Expo Go 54** on your phone. The app auto-detects your ma
 | Mobile | React Native, Expo SDK 54, Expo Router |
 | Containers | Docker Alpine (Postgres + .NET runtime) |
 
+## PostgreSQL 18 storage
+
+PostgreSQL 18 changed the Docker volume mount path. This project uses the PG 18 layout:
+
+| Version | Image | Volume mount |
+|---------|-------|--------------|
+| 16 and earlier | `postgres:16-alpine` | `/var/lib/postgresql/data` |
+| **18 (current)** | `postgres:18-alpine` | `/var/lib/postgresql` |
+
+Data is stored under `18/docker/` inside the `postgres_data_18` volume automatically.
+
+### Migrating from PostgreSQL 16
+
+If you have an existing PG 16 `postgres_data` volume, run the migration script:
+
+```bash
+chmod +x scripts/migrate-postgres-to-18.sh
+./scripts/migrate-postgres-to-18.sh
+```
+
+The script will:
+1. Dump your PG 16 database
+2. Back up the legacy Docker volume
+3. Start PG 18 with the new storage path
+4. Restore your data
+5. Bring the full stack back up
+
+For a **fresh install**, just run `docker compose up -d` — no migration needed.
+
 ## Clearing Seed Data
 
 Seed data is inserted only when the `Players` table is empty. To reset:
 
 ```bash
-docker compose down -v   # removes Postgres volume
+docker compose down -v   # removes Postgres 18 volume
 docker compose up -d     # fresh database with new seed data
 ```
 

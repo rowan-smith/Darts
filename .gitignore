@@ -22,5 +22,7 @@ Thumbs.db
 *.swp
 *.swo
 
-# Docker volumes
+# Docker volumes / migration dumps
 postgres_data/
+postgres_data_18/
+pg16_backup.dump

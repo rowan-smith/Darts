@@ -6,10 +6,13 @@ services:
       POSTGRES_USER: darts
       POSTGRES_PASSWORD: darts123
       POSTGRES_DB: dartsdb
+      # PG 18+ stores data under /var/lib/postgresql/<version>/docker (set automatically)
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      # PG 18+ requires mounting the parent directory, not /data directly.
+      # The image creates versioned subdirectories (e.g. 18/docker) under this path.
+      - postgres_data_18:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U darts -d dartsdb"]
       interval: 5s
@@ -32,4 +35,4 @@ services:
         condition: service_healthy
 
 volumes:
-  postgres_data:
+  postgres_data_18:
