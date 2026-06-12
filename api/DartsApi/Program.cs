@@ -1,8 +1,16 @@
+using DartsApi.Configuration;
 using DartsApi.Data;
 using DartsApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var serverOptions = ServerOptions.GetServerOptions(builder.Configuration);
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.WebHost.ConfigureKestrel(kestrel =>
+        kestrel.ListenAnyIP(serverOptions.Port));
+}
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
