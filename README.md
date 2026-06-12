@@ -58,7 +58,11 @@ cd client
 npm install
 cp .env.example .env   # optional — set EXPO_PUBLIC_API_URL for your LAN IP
 npx expo start
+# or clear Metro cache after config changes:
+npm run start:clear
 ```
+
+The client uses **Metro** as the bundler (see `client/metro.config.js`). `expo start` runs Metro under the hood for iOS, Android, and web.
 
 Scan the QR code with **Expo Go 54** on your phone. The app auto-detects your machine's IP for the API (`http://<your-ip>:8080/api`).
 
